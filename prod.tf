@@ -40,6 +40,7 @@ resource "aws_security_group" "prod_web" {
   }
 }
 resource "aws_instance" "prod_web" {
+  count = 3
   ami = "ami-0d2ffa56cbd31f725"
   instance_type = "t2.nano"
 
@@ -51,9 +52,49 @@ resource "aws_instance" "prod_web" {
     "terraform" = "true"
   }
 }
+resource "aws_eip_association" "prod_web" {
+  instance_id = aws_instance.prod_web.0.id
+  allocation_id= aws_eip.prod_web.id
+}
 resource "aws_eip" "prod_web" {
-  instance = aws_instance.prod_web.id
+  instance = aws_instance.prod_web.0.id
   tags = {
       "terraform" = "true"
   }
+}
+
+resource "aws_default_subnet" "default_az1" {
+  availability_zone = "ap-south-1a"
+  tags = {
+      "terraform" = "true"
+  }
+}
+resource "aws_default_subnet" "default_az2" {
+  availability_zone = "ap-south-1b"
+  tags = {
+      "terraform" = "true"
+  }
+}
+resource "aws_default_subnet" "default_az3" {
+  availability_zone = "ap-south-1c"
+  tags = {
+      "terraform" = "true"
+  }
+}
+resource "aws_elb" "prod_web" {
+  name = "prod-web"
+  instances = [ aws_instance.prod_web[0].id, aws_instance.prod_web[1].id, aws_instance.prod_web[2].id ]
+  subnets = [ aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id, aws_default_subnet.default_az3.id ]
+  security_groups = [ aws_security_group.prod_web.id ]
+
+  listener {
+    instance_port = 80
+    instance_protocol = "http"
+    lb_port = 80
+    lb_protocol = "http"
+  }
+  tags = {
+    "terraform" = "true"
+  }
+  
 }
