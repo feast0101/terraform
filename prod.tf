@@ -39,7 +39,6 @@ resource "aws_security_group" "prod_web" {
     "terraform" = "true"
   }
 }
-
 resource "aws_instance" "prod_web" {
   ami = "ami-0d2ffa56cbd31f725"
   instance_type = "t2.nano"
@@ -50,5 +49,11 @@ resource "aws_instance" "prod_web" {
 
   tags = {
     "terraform" = "true"
+  }
+}
+resource "aws_eip" "prod_web" {
+  instance = aws_instance.prod_web.id
+  tags = {
+      "terraform" = "true"
   }
 }
