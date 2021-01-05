@@ -1,8 +1,3 @@
-provider "aws" {
-  profile = "default"
-  region  = "ap-south-1"
-}
-
 resource "aws_s3_bucket" "tf_s3" {
   bucket = "tf-s3-20210104"
   acl    = "private"
@@ -41,7 +36,7 @@ resource "aws_security_group" "prod_web" {
 }
 resource "aws_instance" "prod_web" {
   count = 3
-  ami = "ami-0d2ffa56cbd31f725"
+  ami = lookup(var.AMIS, var.AWS_REGION) # "ami-0d2ffa56cbd31f725"
   instance_type = "t2.nano"
 
   vpc_security_group_ids = [ 
