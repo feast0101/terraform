@@ -96,5 +96,30 @@ resource "aws_elb" "prod_web" {
   tags = {
     "terraform" = "true"
   }
-  
 }
+#resource "aws_launch_template" "prod_web" {
+#  name_prefix = "prod-web"
+#  image_id = "ami-0d2ffa56cbd31f725"
+#  instance_type = "t2.micro"
+#}
+#resource "aws_autoscaling_group" "prod_web" {
+#  availability_zones = ["ap-south-1a", "ap-south-1b", "ap-south-1c"]
+#  vpc_zone_identifier = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id, aws_default_subnet.default_az3.id]
+#  desired_capacity = 1
+#  max_size =1
+#  min_size = 1
+  
+ # launch_template {
+ #   id = aws_launch_template.prod_web.id
+ #   version = "$Latest"
+ # }
+  #tag {
+  #  key  = "terraform"
+  #  value = "true"
+  #  propagate_at_launch = true
+  #}
+#}
+#resource "aws_autoscaling_attachment" "prod_web" {
+#  autoscaling_group_name = aws_autoscaling_group.prod_web.id
+#  elb = aws_elb.prod_web.id
+#}
