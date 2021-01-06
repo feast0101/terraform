@@ -1,3 +1,7 @@
 # Infrastructure as Code (IAC)
 
-Terraform scripts
+ Reusable Terraform modules:
+              * VPC
+                * Subnet
+              * EC2
+          
