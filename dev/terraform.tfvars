@@ -1,3 +1,9 @@
-AWS_REGION = "ap-south-1"
+AWS_REGION   = "ap-south-1"
 #AWS_ACCESS_KEY = ""
 #AWS_SECRET_KEY = ""
+AWS_AMI      = "ami-0d2ffa56cbd31f725"
+instance_type = "t2.micro"
+vpc_cidr = "192.168.0.0/16"
+subnet_cidr = "192.168.1.0/24"
+ec2_count = 2
+tenancy = "default"

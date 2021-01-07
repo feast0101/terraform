@@ -4,7 +4,3 @@ provider "aws" {
   profile = "default"
   region  = var.AWS_REGION
 }
-
-variable "AWS_REGION" {
-  type =string
-}
